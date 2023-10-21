@@ -1,0 +1,12 @@
+{
+  "compilerOptions": {
+    "strict": false,  // Turn off strict type checking
+    "noImplicitAny": false,  // Allow variables with no type annotations to implicitly have an 'any' type
+    "composite": true,
+    "skipLibCheck": true,
+    "module": "ESNext",
+    "moduleResolution": "bundler",
+    "allowSyntheticDefaultImports": true
+  },
+  "include": ["vite.config.ts"]
+}
