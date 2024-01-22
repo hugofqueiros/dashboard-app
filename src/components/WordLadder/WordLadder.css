@@ -14,3 +14,8 @@
     margin: 5px;
     padding: 8px;
 }
+
+.wordladder-list {
+    max-height: 190px; 
+    overflow-y: auto;
+}

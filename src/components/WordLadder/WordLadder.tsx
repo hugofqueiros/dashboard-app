@@ -11,6 +11,9 @@ const REGEX = /[^A-Za-z]/g; // it can accept cap letters but they will be lowerc
 export const WordLadder = () => {
     const [firstWord, setFirstWord] = useState("");
     const [lastWord, setLastWord] = useState("");
+    const [solution, setSolution] = useState([]);
+    const [isErrorSolution, setIsErrorSolution] = useState(false);
+    const [isLoading, setIsLoading] = useState(false);
 
     const wordList = new Set(dictionary);
 
@@ -23,16 +26,20 @@ export const WordLadder = () => {
     };
 
     const solveWordLadder = () => {
-        console.log('SOLVEEEE!!');
+        setTimeout(() => {
+            if (Math.random() < 0.5) {
+                setIsErrorSolution(true);
+            } else {
+                setSolution(SOL);
+            }
+            setIsLoading(false);
+        }, 3000)
     }
 
     const validate = () => {
         // Verify if words are in the english dictionary
         const isFirstWordInDictionary = wordList.has(firstWord);
         const isLastWordInDictionary = wordList.has(lastWord);
-
-        console.log('isFirstWordInDictionary: ', isFirstWordInDictionary);
-        console.log('isLastWordInDictionary', isLastWordInDictionary);
 
         if (
             firstWord !== "" &&
@@ -59,20 +66,34 @@ export const WordLadder = () => {
                     onChange={onChangeFirstWord}
                 />
 
+                {solution.length > 0 && (
+                    <div className="wordladder-list">
+                        {solution.map((word, index) => (
+                            <div key={`${index}-${word}`}>{word}</div>
+                        ))}
+                    </div>
+                )}
+
                 <input
                     className="wordladder-input"
                     type="text"
                     placeholder="Last Word"
                     value={lastWord}
                     onChange={onChangeLastWord}
-                /> 
+                />
 
-                <button disabled={!validate()} className="wordladder-button" onClick={solveWordLadder}>Solve</button>
+                <button
+                    disabled={(!validate())}
+                    className="wordladder-button"
+                    onClick={solveWordLadder}
+                >
+                    Solve 
+                </button>
             </div>
 
-            <div className="wordladder-spinner">Loading...</div>
+            {isLoading ? <div className="wordladder-spinner">Loading...</div> : null}
 
-            <div className="wordladder-error">ERROR</div>
+            {isErrorSolution ? <div className="wordladder-error">ERROR</div> : null}
         </div>
     );
 };
