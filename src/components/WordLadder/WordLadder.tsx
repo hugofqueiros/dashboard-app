@@ -12,6 +12,8 @@ export const WordLadder = () => {
     const [firstWord, setFirstWord] = useState("");
     const [lastWord, setLastWord] = useState("");
 
+    const wordList = new Set(dictionary);
+
     const onChangeFirstWord = (e: { target: { value: string } }) => {
         setFirstWord(e.target.value.toLowerCase().replace(REGEX, "")); // allow only english letters, no numbers or symbols
     };
@@ -23,6 +25,28 @@ export const WordLadder = () => {
     const solveWordLadder = () => {
         console.log('SOLVEEEE!!');
     }
+
+    const validate = () => {
+        // Verify if words are in the english dictionary
+        const isFirstWordInDictionary = wordList.has(firstWord);
+        const isLastWordInDictionary = wordList.has(lastWord);
+
+        console.log('isFirstWordInDictionary: ', isFirstWordInDictionary);
+        console.log('isLastWordInDictionary', isLastWordInDictionary);
+
+        if (
+            firstWord !== "" &&
+            lastWord !== "" &&
+            firstWord.length === lastWord.length &&
+            firstWord !== lastWord &&
+            isFirstWordInDictionary &&
+            isLastWordInDictionary
+        ) {
+            return true;
+        }
+
+        return false;
+    };
 
     return (
         <div className="wordladder">
@@ -43,7 +67,7 @@ export const WordLadder = () => {
                     onChange={onChangeLastWord}
                 /> 
 
-                <button className="wordladder-button" onClick={solveWordLadder}>Solve</button>
+                <button disabled={!validate()} className="wordladder-button" onClick={solveWordLadder}>Solve</button>
             </div>
 
             <div className="wordladder-spinner">Loading...</div>
