@@ -1,10 +1,16 @@
 import { Link } from "react-router-dom";
 import { ListItemButton, ListItemIcon, ListItemText } from "@mui/material";
-import { Dashboard, People, BarChart, Layers, CurrencyBitcoin } from "@mui/icons-material";
+import { Dashboard, People, BarChart, Layers, CurrencyBitcoin, Gamepad } from "@mui/icons-material";
 
 export const mainListItems = (
     <>
-        <ListItemButton component={Link} to="/test">
+        <ListItemButton component={Link} to="/wordladder">
+            <ListItemIcon>
+                <Gamepad />
+            </ListItemIcon>
+            <ListItemText primary="Word Ladder" />
+        </ListItemButton>
+        <ListItemButton component={Link} to="/default">
             <ListItemIcon>
                 <Dashboard />
             </ListItemIcon>
