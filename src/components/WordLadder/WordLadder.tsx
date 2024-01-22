@@ -1,4 +1,8 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
+
+import { Spinner } from "./Spinner";
+import { Modal } from "./Modal";
+import { Button } from "./Button";
 
 import dictionary from "../../assets/dictionary.json";
 
@@ -14,18 +18,35 @@ export const WordLadder = () => {
     const [solution, setSolution] = useState([]);
     const [isErrorSolution, setIsErrorSolution] = useState(false);
     const [isLoading, setIsLoading] = useState(false);
+    const [isFindingSolution, setIsFindingSolution] = useState(false);
+
+    useEffect(() => {
+        if (isFindingSolution) {
+            setTimeout(() => {
+                setIsLoading(true);
+            }, 500);
+        }
+    }, [isFindingSolution]);
 
     const wordList = new Set(dictionary);
 
     const onChangeFirstWord = (e: { target: { value: string } }) => {
         setFirstWord(e.target.value.toLowerCase().replace(REGEX, "")); // allow only english letters, no numbers or symbols
+        if (solution.length) { // solution cleared if words are changed
+            setSolution([]);
+        }
     };
 
     const onChangeLastWord = (e: { target: { value: string } }) => {
         setLastWord(e.target.value.toLowerCase().replace(REGEX, "")); // allow only english letters, no numbers or symbols
+        if (solution.length) { // solution cleared if words are changed
+            setSolution([]);
+        }
     };
 
     const solveWordLadder = () => {
+        setIsFindingSolution(true);
+
         setTimeout(() => {
             if (Math.random() < 0.5) {
                 setIsErrorSolution(true);
@@ -33,10 +54,16 @@ export const WordLadder = () => {
                 setSolution(SOL);
             }
             setIsLoading(false);
+            setIsFindingSolution(false);
         }, 3000)
     }
 
     const validate = () => {
+        // if there is a solution, button needs to be disabled
+        if (solution.length > 0) {
+            return false;
+        }
+
         // Verify if words are in the english dictionary
         const isFirstWordInDictionary = wordList.has(firstWord);
         const isLastWordInDictionary = wordList.has(lastWord);
@@ -54,6 +81,10 @@ export const WordLadder = () => {
 
         return false;
     };
+
+    const handleSpinnerClose = () => setIsLoading(false);
+
+    const handleErrorClose = () => setIsErrorSolution(false);
 
     return (
         <div className="wordladder">
@@ -82,18 +113,18 @@ export const WordLadder = () => {
                     onChange={onChangeLastWord}
                 />
 
-                <button
-                    disabled={(!validate())}
-                    className="wordladder-button"
-                    onClick={solveWordLadder}
-                >
-                    Solve 
-                </button>
+                <Button disabled={!validate()} onClick={solveWordLadder}>
+                    Solve
+                </Button>
             </div>
 
-            {isLoading ? <div className="wordladder-spinner">Loading...</div> : null}
+            <Modal isOpen={isLoading} onClose={handleSpinnerClose}>
+                <Spinner />
+            </Modal>
 
-            {isErrorSolution ? <div className="wordladder-error">ERROR</div> : null}
+            <Modal isOpen={isErrorSolution} onClose={handleErrorClose}>
+                There is no solution for this Word Ladder!!! 
+            </Modal>
         </div>
     );
 };
