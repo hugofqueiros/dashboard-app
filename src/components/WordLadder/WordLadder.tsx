@@ -4,6 +4,8 @@ import { Spinner } from "./Spinner";
 import { Modal } from "./Modal";
 import { Button } from "./Button";
 
+import { findSolution } from "./findSolution";
+
 import dictionary from "../../assets/dictionary.json";
 
 import "./WordLadder.css";
@@ -47,15 +49,28 @@ export const WordLadder = () => {
     const solveWordLadder = () => {
         setIsFindingSolution(true);
 
-        setTimeout(() => {
-            if (Math.random() < 0.5) {
-                setIsErrorSolution(true);
-            } else {
-                setSolution(SOL);
-            }
-            setIsLoading(false);
-            setIsFindingSolution(false);
-        }, 3000)
+        // comment the next 10 lines to be able to run the simulation part (without the findSolution method)
+        const sol = findSolution(firstWord, lastWord);
+
+        if (sol.length === 0) {
+            setIsErrorSolution(true);
+        } else {
+            setSolution(sol);
+        }
+
+        setIsLoading(false);
+        setIsFindingSolution(false);
+
+        // remove comments to simulate solution based on an made up input array
+        // setTimeout(() => {
+        //     if (Math.random() < 0.5) {
+        //         setIsErrorSolution(true);
+        //     } else {
+        //         setSolution(SOL);
+        //     }
+        //     setIsLoading(false);
+        //     setIsFindingSolution(false);
+        // }, 3000)
     }
 
     const validate = () => {
