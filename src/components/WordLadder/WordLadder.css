@@ -1,0 +1,21 @@
+.wordladder {
+    background: #ffffff;
+    min-height: 360px;
+}
+
+.wordladder-body {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 12px 12px;
+}
+
+.wordladder-input {
+    margin: 5px;
+    padding: 8px;
+}
+
+.wordladder-list {
+    max-height: 190px; 
+    overflow-y: auto;
+}

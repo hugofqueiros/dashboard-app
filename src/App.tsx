@@ -1,14 +1,15 @@
 import { HashRouter, Route, Routes } from "react-router-dom";
 
-import { Home, How, DefaultDashboardBody, BitcoinBody, MarketCapBody, Reducer } from "./containers";
+import { Home, How, DefaultDashboardBody, BitcoinBody, MarketCapBody, Reducer, WordLadderBody } from "./containers";
 
 function App() {
     return (
         <HashRouter>
             <Routes>
                 <Route path="/" element={<Home />}>
-                    <Route path="" element={<DefaultDashboardBody />} />
-                    <Route path="test" element={<DefaultDashboardBody />} />
+                    <Route path="" element={<WordLadderBody />} />
+                    <Route path="wordladder" element={<WordLadderBody />} />
+                    <Route path="default" element={<DefaultDashboardBody />} />
                     <Route path="bitcoin" element={<BitcoinBody />} />
                     <Route path="marketcap" element={<MarketCapBody />} />
                     <Route path="reducer" element={<Reducer />} />
